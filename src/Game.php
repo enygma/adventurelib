@@ -15,6 +15,15 @@ class Game
             $player = new \Adventurelib\Player();
         }
         $this->setPlayer($player);
+
+        // Add in the default "help" command
+        $help = new Command('?', function($game) use ($cli) {
+            $cli->bold()->out('Available commands:');
+            foreach ($game->getCommands() as $command) {
+                $cli->out('* '.$command->getMatch());
+            }
+        });
+        $this->addCommand('help', $help);
     }
 
     public function setPlayer(\Adventurelib\Player $player)
